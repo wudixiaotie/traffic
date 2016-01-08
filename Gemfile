@@ -48,3 +48,4 @@ end
 gem 'pg'
 gem 'chartkick'
 gem 'rack-cors', :require => 'rack/cors'
+gem "puma"
