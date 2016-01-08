@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107094318) do
+ActiveRecord::Schema.define(version: 20160107094319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "visitors", force: :cascade do |t|
-    t.string   "ip",         null: false
-    t.integer  "times",      null: false
-    t.date     "date",       null: false
+    t.string   "ip",                     null: false
+    t.integer  "times",      default: 0, null: false
+    t.date     "date",                   null: false
     t.string   "referer"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
 end

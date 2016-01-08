@@ -2,7 +2,7 @@ class CreateVisitors < ActiveRecord::Migration
   def change
     create_table :visitors do |t|
       t.string  :ip, null: false
-      t.integer :times, null: false
+      t.integer :times, null: false, default: 0
       t.date    :date, null: false
       t.string  :referer, null: true
 
