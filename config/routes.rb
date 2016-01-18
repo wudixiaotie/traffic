@@ -55,5 +55,5 @@ Rails.application.routes.draw do
   #   end
   root 'welcome#index'
 
-  resources :visitors, only: [:index, :create]
+  resources :visitors, only: [:create, :index, :show]
 end
