@@ -20,11 +20,7 @@ class VisitorsController < ApplicationController
   end
 
   def index
-    csv  = "Date,All visits,Unique Visitors\n"
-    Visitor.find_by_sql("select date, count(id) as id, sum(times) as times from visitors group by date").each do |visitor|
-      csv << "#{visitor.date},#{visitor.times},#{visitor.id}\n"
-    end
-    render text: csv
+    @data = Visitor.find_by_sql("select date, count(id) as id, sum(times) as times from visitors group by date")
   end
 
   def show
