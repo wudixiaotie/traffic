@@ -20,10 +20,10 @@ class VisitorsController < ApplicationController
   end
 
   def index
-    @data = Visitor.find_by_sql("select date, count(id) as id, sum(times) as times from visitors group by date")
+    @data = Visitor.find_by_sql("select date, count(id) as id, sum(times) as times from visitors group by date order by date asc")
   end
 
   def show
-    render json: Visitor.find_by(date: params["id"])
+    render json: Visitor.where(date: params["id"])
   end
 end

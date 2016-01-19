@@ -1,115 +1,135 @@
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
+<div class="detail">
+  <div>IP</div>
+  <div>Visit times</div>
+  <div>Referer</div>
+  <div>Date</div>
+  <div>First Visit Time</div>
+  <div>Last Visit Time</div>
+</div>
+<div id="detail" class="detail">
+</div>
+
 <script type="text/javascript">
-$(function () {
-  $('#container').highcharts({
-    credits: {
-      enabled: true,
-      href: "https://traffic-wudixiaotie.herokuapp.com/",
-      text: "traffic-wudixiaotie"
-    },
+  $(function () {
+    $('#container').highcharts({
+      credits: {
+        enabled: true,
+        href: "https://traffic-wudixiaotie.herokuapp.com/",
+        text: "traffic-wudixiaotie"
+      },
 
-    title: {
-      text: 'Daily visits at wudixiaotie.github.io'
-    },
+      title: {
+        text: 'Daily visits at wudixiaotie.github.io'
+      },
 
-    subtitle: {
-      text: 'Source: Wudixiaotie Traffic Heroku App'
-    },
+      subtitle: {
+        text: 'Source: Wudixiaotie Traffic Heroku App'
+      },
 
-    xAxis: {
-      tickInterval: 7 * 24 * 3600 * 1000, // one week
-      tickWidth: 0,
-      gridLineWidth: 1,
-      labels: {
-        align: 'left',
-        x: 3,
-        y: -3
-      }
-    },
-
-    yAxis: [
-      { // left y axis
-        title: {
-          text: null
-        },
+      xAxis: {
+        type: 'datetime',
+        tickInterval: 7 * 24 * 3600 * 1000, // one week
+        tickWidth: 0,
+        gridLineWidth: 1,
         labels: {
           align: 'left',
           x: 3,
-          y: 16,
-          format: '{value:.,0f}'
-        },
-        showFirstLabel: false
-      },
-      { // right y axis
-        linkedTo: 0,
-        gridLineWidth: 0,
-        opposite: true,
-        title: {
-          text: null
-        },
-        labels: {
-          align: 'right',
-          x: -3,
-          y: 16,
-          format: '{value:.,0f}'
-        },
-        showFirstLabel: false
-      }
-    ],
-
-    legend: {
-      align: 'left',
-      verticalAlign: 'top',
-      y: 20,
-      floating: true,
-      borderWidth: 0
-    },
-
-    tooltip: {
-      shared: true,
-      crosshairs: true
-    },
-
-    plotOptions: {
-      series: {
-        cursor: 'pointer',
-        point: {
-          events: {
-            click: function (e) {
-              hs.htmlExpand(null, {
-                pageOrigin: {
-                  x: e.pageX || e.clientX,
-                  y: e.pageY || e.clientY
-                },
-                headingText: this.series.name,
-                maincontentText: Highcharts.dateFormat('%A, %b %e, %Y', this.x) + ':<br/> ' +
-                  this.y + ' visits',
-                width: 200
-              });
-            }
-          }
-        },
-        marker: {
-          lineWidth: 1
+          y: -3
         }
-      }
-    },
-
-    series: [
-      {
-        name: 'Unique Visitors',
-        lineWidth: 4,
-        marker: {
-          radius: 4
-        },
-        data: <%= @data.map { |visitor| visitor.id }.inspect %>
       },
-      {
-        name: 'All visits',
-        data: <%= @data.map { |visitor| visitor.times }.inspect %>
-      }
-    ]
+
+      yAxis: [
+        { // left y axis
+          title: {
+            text: null
+          },
+          labels: {
+            align: 'left',
+            x: 3,
+            y: 16,
+            format: '{value:.,0f}'
+          },
+          showFirstLabel: false
+        },
+        { // right y axis
+          linkedTo: 0,
+          gridLineWidth: 0,
+          opposite: true,
+          title: {
+            text: null
+          },
+          labels: {
+            align: 'right',
+            x: -3,
+            y: 16,
+            format: '{value:.,0f}'
+          },
+          showFirstLabel: false
+        }
+      ],
+
+      legend: {
+        align: 'left',
+        verticalAlign: 'top',
+        y: 20,
+        floating: true,
+        borderWidth: 0
+      },
+
+      tooltip: {
+        shared: true,
+        crosshairs: true
+      },
+
+      plotOptions: {
+        series: {
+          cursor: 'pointer',
+          point: {
+            events: {
+              click: function (e) {
+                var date = new Date(parseInt(e.point.x));
+                var date_string = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                $.getJSON("/visitors/" + date_string, function (result) {
+                    var detail = $("#detail");
+                    detail.children().remove();
+                    if(result == []) {
+                      alert("fuck");
+                    } else {
+                      for (var i = 0; i < result.length; i++) {
+                        detail.append("<div>" + result[i].ip + "</div>");
+                        detail.append("<div>" + result[i].times + "</div>");
+                        detail.append("<div>" + result[i].referer + "</div>");
+                        detail.append("<div>" + result[i].date + "</div>");
+                        detail.append("<div>" + result[i].created_at + "</div>");
+                        detail.append("<div>" + result[i].updated_at + "</div>");
+                      };
+                    }
+                });
+              }
+            }
+          },
+          marker: {
+            lineWidth: 1
+          }
+        }
+      },
+
+      series: [
+        {
+          name: 'Unique Visitors',
+          lineWidth: 4,
+          marker: {
+            radius: 4
+          },
+          data: <%= @data.map { |visitor| [visitor.date.to_datetime.to_i * 1000, visitor.id] }.inspect %>
+        },
+        {
+          name: 'All visits',
+          data: <%= @data.map { |visitor| [visitor.date.to_datetime.to_i * 1000, visitor.times] }.inspect %>
+        }
+      ]
+    });
   });
-});
 </script>
