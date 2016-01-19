@@ -1,5 +1,7 @@
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
+<div style="height: 4rem;"></div>
+<hr />
 <div class="detail">
   <div>IP</div>
   <div>Visit times</div>
@@ -7,9 +9,11 @@
   <div>Date</div>
   <div>First Visit Time</div>
   <div>Last Visit Time</div>
+  <div>&nbsp;</div>
 </div>
-<div id="detail" class="detail">
-</div>
+<hr />
+<div class="detail item"></div>
+<hr class="detail-bottom" />
 
 <script type="text/javascript">
   $(function () {
@@ -92,19 +96,38 @@
                 var date = new Date(parseInt(e.point.x));
                 var date_string = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                 $.getJSON("/visitors/" + date_string, function (result) {
-                    var detail = $("#detail");
-                    detail.children().remove();
+                    $(".item").children().remove();
+                    var bottom = $(".detail-bottom");
                     if(result == []) {
                       alert("fuck");
                     } else {
                       for (var i = 0; i < result.length; i++) {
-                        detail.append("<div>" + result[i].ip + "</div>");
-                        detail.append("<div>" + result[i].times + "</div>");
-                        detail.append("<div>" + result[i].referer + "</div>");
-                        detail.append("<div>" + result[i].date + "</div>");
-                        detail.append("<div>" + result[i].created_at + "</div>");
-                        detail.append("<div>" + result[i].updated_at + "</div>");
+                        var item = $("<div class=\"detail item\"></div>");
+                        item.append("<div class=\"ip\">" + result[i].ip + "</div>");
+                        item.append("<div>" + result[i].times + "</div>");
+                        item.append("<div>" + result[i].referer + "</div>");
+                        item.append("<div>" + result[i].date + "</div>");
+                        item.append("<div>" + result[i].created_at + "</div>");
+                        item.append("<div>" + result[i].updated_at + "</div><div>&nbsp;</div>");
+
+                        bottom.before(item);
                       };
+
+                      $(".ip").each(function () {
+                        var div_ip = $(this);
+                        var ip = div_ip.text();
+                        $.getJSON("http://ip-api.com/json/" + ip + "?callback=", function (result) {
+                          if (result.status == "success") {
+                            var tooltip = "country:          " + result.country + "\n";
+                            tooltip = tooltip + "regionName: " + result.regionName + "\n";
+                            tooltip = tooltip + "regionName: " + result.regionName + "\n";
+                            tooltip = tooltip + "city:       " + result.city + "\n";
+                            tooltip = tooltip + "org:        " + result.org + "\n";
+
+                            div_ip.attr("title", tooltip);
+                          }
+                        });
+                      });
                     }
                 });
               }

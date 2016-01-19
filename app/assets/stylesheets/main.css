@@ -3,3 +3,9 @@
     line-height: 3rem;
     width: 16%;
 }
+
+.detail div:last-child {
+    float: left;
+    line-height: 3rem;
+    width: 4%;
+}
