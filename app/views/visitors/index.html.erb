@@ -116,16 +116,19 @@
                       $(".ip").each(function () {
                         var div_ip = $(this);
                         var ip = div_ip.text();
-                        $.getJSON("http://ip-api.com/json/" + ip + "?callback=", function (result) {
-                          if (result.status == "success") {
-                            var tooltip = "country:          " + result.country + "\n";
-                            tooltip = tooltip + "regionName: " + result.regionName + "\n";
-                            tooltip = tooltip + "regionName: " + result.regionName + "\n";
-                            tooltip = tooltip + "city:       " + result.city + "\n";
-                            tooltip = tooltip + "org:        " + result.org + "\n";
+                        $.getJSON("https://freegeoip.net/json/" + ip, function (result) {
+                          var tooltip = "";
+                          tooltip = tooltip + "country_code: " + result.country_code + "\n";
+                          tooltip = tooltip + "country_name: " + result.country_name + "\n";
+                          tooltip = tooltip + "region_code:  " + result.region_code + "\n";
+                          tooltip = tooltip + "region_name:  " + result.region_name + "\n";
+                          tooltip = tooltip + "city:         " + result.city + "\n";
+                          tooltip = tooltip + "zip_code:     " + result.zip_code + "\n";
+                          tooltip = tooltip + "time_zone:    " + result.time_zone + "\n";
+                          tooltip = tooltip + "latitude:     " + result.latitude + "\n";
+                          tooltip = tooltip + "longitude:    " + result.longitude + "\n";
 
-                            div_ip.attr("title", tooltip);
-                          }
+                          div_ip.attr("title", tooltip);
                         });
                       });
                     }
