@@ -3,17 +3,24 @@
 <div style="height: 4rem;"></div>
 <hr />
 <div class="detail">
-  <div>IP</div>
-  <div>Visit times</div>
-  <div>Referer</div>
-  <div>Date</div>
-  <div>First Visit Time</div>
-  <div>Last Visit Time</div>
+  <div class="ip">IP</div>
+  <div class="visit">Visit</div>
+  <div class="referer">Referer</div>
+  <div class="date">Date</div>
+  <div class="first_visit">First Visit</div>
+  <div class="last_visit">Last Visit</div>
+  <div class="org">Org</div>
+  <div class="country">Country</div>
+  <div class="region">Region</div>
+  <div class="city">City</div>
+  <div class="hostname">Hostname</div>
+  <div class="postal">Postal</div>
   <div>&nbsp;</div>
 </div>
 <hr />
 <div class="detail item"></div>
 <hr class="detail-bottom" />
+
 
 <script type="text/javascript">
   $(function () {
@@ -104,33 +111,23 @@
                       for (var i = 0; i < result.length; i++) {
                         var item = $("<div class=\"detail item\"></div>");
                         item.append("<div class=\"ip\">" + result[i].ip + "</div>");
-                        item.append("<div>" + result[i].times + "</div>");
-                        item.append("<div>" + result[i].referer + "</div>");
-                        item.append("<div>" + result[i].date + "</div>");
-                        item.append("<div>" + result[i].created_at + "</div>");
-                        item.append("<div>" + result[i].updated_at + "</div><div>&nbsp;</div>");
+                        item.append("<div class=\"visit\">" + result[i].times + "</div>");
+                        item.append("<div class=\"referer\">" + result[i].referer + "</div>");
+                        item.append("<div class=\"date\">" + result[i].date + "</div>");
+                        item.append("<div class=\"first_visit\">" + result[i].created_at + "</div>");
+                        item.append("<div class=\"last_visit\">" + result[i].updated_at + "</div>");
+
+                        $.getJSON("http://ipinfo.io/" + result[i].ip, function (result) {
+                          item.append("<div class=\"org\">" + result.org + "</div>");
+                          item.append("<div class=\"country\">" + result.country + "</div>");
+                          item.append("<div class=\"region\">" + result.region + "</div>");
+                          item.append("<div class=\"city\">" + result.city + "</div>");
+                          item.append("<div class=\"hostname\">" + result.hostname + "</div>");
+                          item.append("<div class=\"postal\">" + result.postal + "</div>");
+                        });
 
                         bottom.before(item);
                       };
-
-                      $(".ip").each(function () {
-                        var div_ip = $(this);
-                        var ip = div_ip.text();
-                        $.getJSON("https://freegeoip.net/json/" + ip, function (result) {
-                          var tooltip = "";
-                          tooltip = tooltip + "country_code: " + result.country_code + "\n";
-                          tooltip = tooltip + "country_name: " + result.country_name + "\n";
-                          tooltip = tooltip + "region_code:  " + result.region_code + "\n";
-                          tooltip = tooltip + "region_name:  " + result.region_name + "\n";
-                          tooltip = tooltip + "city:         " + result.city + "\n";
-                          tooltip = tooltip + "zip_code:     " + result.zip_code + "\n";
-                          tooltip = tooltip + "time_zone:    " + result.time_zone + "\n";
-                          tooltip = tooltip + "latitude:     " + result.latitude + "\n";
-                          tooltip = tooltip + "longitude:    " + result.longitude + "\n";
-
-                          div_ip.attr("title", tooltip);
-                        });
-                      });
                     }
                 });
               }

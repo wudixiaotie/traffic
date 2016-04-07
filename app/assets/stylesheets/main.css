@@ -1,11 +1,53 @@
 .detail div {
     float: left;
     line-height: 3rem;
+    text-align: center;
+}
+
+.detail .ip {
+    width: 8%;
+}
+
+.detail .visit {
+    width: 4%;
+}
+
+.detail .referer {
     width: 16%;
 }
 
-.detail div:last-child {
-    float: left;
-    line-height: 3rem;
+.detail .date {
+    width: 16%;
+}
+
+.detail .first_visit {
+    width: 8%;
+}
+
+.detail .last_visit {
+    width: 8%;
+}
+
+.detail .org {
+    width: 12%;
+}
+
+.detail .country {
+    width: 6%;
+}
+
+.detail .region {
+    width: 6%;
+}
+
+.detail .city {
+    width: 6%;
+}
+
+.detail .hostname {
+    width: 6%;
+}
+
+.detail .postal {
     width: 4%;
 }
