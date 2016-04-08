@@ -114,10 +114,10 @@
                         item.append("<td>" + result[i].created_at + "</td>");
                         item.append("<td>" + result[i].updated_at + "</td>");
 
-                        $.getJSON("http://ipinfo.io/" + result[i].ip, function (ip_result) {
+                        $.getJSON("https://geoip.nekudo.com/api/" + result[i].ip, function (ip_result) {
                           var tr = $("tr#" + ip_result.ip.replace(/\./gm, '\\.'));
                           tr.append("<td>" + ip_result.org + "</td>");
-                          tr.append("<td>" + ip_result.country + "</td>");
+                          tr.append("<td>" + ip_result.country.name + "</td>");
                           tr.append("<td>" + ip_result.region + "</td>");
                           tr.append("<td>" + ip_result.city + "</td>");
                           tr.append("<td>" + ip_result.hostname + "</td>");
