@@ -1,53 +1,17 @@
-.detail div {
-    float: left;
-    line-height: 3rem;
+.detail {
     text-align: center;
+    width: 100%;
+    border-collapse:collapse;
+    border:solid #999;
+    border-width:1px 0 0 1px; 
 }
 
-.detail .ip {
-    width: 8%;
+.detail td {
+    border:solid #999;
+    border-width:0 1px 1px 0;
+    padding:2px;
 }
 
-.detail .visit {
-    width: 4%;
-}
-
-.detail .referer {
-    width: 16%;
-}
-
-.detail .date {
-    width: 6%;
-}
-
-.detail .first_visit {
-    width: 12%;
-}
-
-.detail .last_visit {
-    width: 12%;
-}
-
-.detail .org {
-    width: 15%;
-}
-
-.detail .country {
-    width: 5%;
-}
-
-.detail .region {
-    width: 6%;
-}
-
-.detail .city {
-    width: 6%;
-}
-
-.detail .hostname {
-    width: 6%;
-}
-
-.detail .postal {
-    width: 4%;
+.item {
+    line-height: 3rem;
 }

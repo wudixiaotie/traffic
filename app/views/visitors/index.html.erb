@@ -2,24 +2,22 @@
 
 <div style="height: 4rem;"></div>
 <hr />
-<div class="detail">
-  <div class="ip">IP</div>
-  <div class="visit">Visit</div>
-  <div class="referer">Referer</div>
-  <div class="date">Date</div>
-  <div class="first_visit">First Visit</div>
-  <div class="last_visit">Last Visit</div>
-  <div class="org">Org</div>
-  <div class="country">Country</div>
-  <div class="region">Region</div>
-  <div class="city">City</div>
-  <div class="hostname">Hostname</div>
-  <div class="postal">Postal</div>
-</div>
-<hr />
-<div class="detail item"></div>
-<hr class="detail-bottom" />
-
+<table class="detail">
+  <tr>
+    <td>IP</td>
+    <td>Visit</td>
+    <td>Referer</td>
+    <td>Date</td>
+    <td>First Visit</td>
+    <td>Last Visit</td>
+    <td>Org</td>
+    <td>Country</td>
+    <td>Region</td>
+    <td>City</td>
+    <td>Hostname</td>
+    <td>Postal</td>
+  </tr>
+</table>
 
 <script type="text/javascript">
   $(function () {
@@ -101,31 +99,32 @@
               click: function (e) {
                 var date = new Date(parseInt(e.point.x));
                 var date_string = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                var table_detail = $("table.detail");
                 $.getJSON("/visitors/" + date_string, function (result) {
                     $(".item").children().remove();
-                    var bottom = $(".detail-bottom");
                     if(result == []) {
                       alert("fuck");
                     } else {
                       for (var i = 0; i < result.length; i++) {
-                        var item = $("<div class=\"detail item\"></div>");
-                        item.append("<div class=\"ip\">" + result[i].ip + "</div>");
-                        item.append("<div class=\"visit\">" + result[i].times + "</div>");
-                        item.append("<div class=\"referer\">" + result[i].referer + "</div>");
-                        item.append("<div class=\"date\">" + result[i].date + "</div>");
-                        item.append("<div class=\"first_visit\">" + result[i].created_at + "</div>");
-                        item.append("<div class=\"last_visit\">" + result[i].updated_at + "</div>");
+                        var item = $("<tr class=\"item\" id=\"" + result[i].ip + "\"></tr>");
+                        item.append("<td>" + result[i].ip + "</td>");
+                        item.append("<td>" + result[i].times + "</td>");
+                        item.append("<td>" + result[i].referer + "</td>");
+                        item.append("<td>" + result[i].date + "</td>");
+                        item.append("<td>" + result[i].created_at + "</td>");
+                        item.append("<td>" + result[i].updated_at + "</td>");
 
-                        $.getJSON("http://ipinfo.io/" + result[i].ip, function (result) {
-                          item.append("<div class=\"org\">" + result.org + "</div>");
-                          item.append("<div class=\"country\">" + result.country + "</div>");
-                          item.append("<div class=\"region\">" + result.region + "</div>");
-                          item.append("<div class=\"city\">" + result.city + "</div>");
-                          item.append("<div class=\"hostname\">" + result.hostname + "</div>");
-                          item.append("<div class=\"postal\">" + result.postal + "</div>");
+                        $.getJSON("http://ipinfo.io/" + result[i].ip, function (ip_result) {
+                          var tr = $("tr#" + ip_result.ip.replace(/\./gm, '\\.'));
+                          tr.append("<td>" + ip_result.org + "</td>");
+                          tr.append("<td>" + ip_result.country + "</td>");
+                          tr.append("<td>" + ip_result.region + "</td>");
+                          tr.append("<td>" + ip_result.city + "</td>");
+                          tr.append("<td>" + ip_result.hostname + "</td>");
+                          tr.append("<td>" + ip_result.postal + "</td>");
                         });
 
-                        bottom.before(item);
+                        table_detail.append(item);
                       };
                     }
                 });
