@@ -17,23 +17,23 @@
 }
 
 .detail .date {
-    width: 16%;
+    width: 6%;
 }
 
 .detail .first_visit {
-    width: 8%;
-}
-
-.detail .last_visit {
-    width: 8%;
-}
-
-.detail .org {
     width: 12%;
 }
 
+.detail .last_visit {
+    width: 12%;
+}
+
+.detail .org {
+    width: 15%;
+}
+
 .detail .country {
-    width: 6%;
+    width: 5%;
 }
 
 .detail .region {
