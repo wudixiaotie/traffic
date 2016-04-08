@@ -24,6 +24,27 @@ class VisitorsController < ApplicationController
   end
 
   def show
-    render json: Visitor.where(date: params["id"])
+    result = []
+    Visitor.where(date: params["id"]).each do |visitor|
+      item = {}
+      item["ip"] = visitor.ip
+      item["times"] = visitor.times
+      item["referer"] = visitor.referer
+      item["date"] = visitor.date
+      item["created_at"] = visitor.created_at
+      item["updated_at"] = visitor.updated_at
+
+      ip_json = JSON.parse(Curl.get("http://ip-api.com/json/" + visitor.ip).body)
+
+      item["org"] = ip_json["org"]
+      item["country"] = ip_json["country"]
+      item["region"] = ip_json["regionName"]
+      item["city"] = ip_json["city"]
+      item["isp"] = ip_json["isp"]
+      item["address"] = ip_json["as"]
+
+      result.append(item)
+    end
+    render json: result
   end
 end

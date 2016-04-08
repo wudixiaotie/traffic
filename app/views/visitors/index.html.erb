@@ -14,8 +14,8 @@
     <td>Country</td>
     <td>Region</td>
     <td>City</td>
-    <td>Hostname</td>
-    <td>Postal</td>
+    <td>ISP</td>
+    <td>Address</td>
   </tr>
 </table>
 
@@ -113,16 +113,12 @@
                         item.append("<td>" + result[i].date + "</td>");
                         item.append("<td>" + result[i].created_at + "</td>");
                         item.append("<td>" + result[i].updated_at + "</td>");
-
-                        $.getJSON("https://geoip.nekudo.com/api/" + result[i].ip, function (ip_result) {
-                          var tr = $("tr#" + ip_result.ip.replace(/\./gm, '\\.'));
-                          tr.append("<td>" + ip_result.org + "</td>");
-                          tr.append("<td>" + ip_result.country.name + "</td>");
-                          tr.append("<td>" + ip_result.region + "</td>");
-                          tr.append("<td>" + ip_result.city + "</td>");
-                          tr.append("<td>" + ip_result.hostname + "</td>");
-                          tr.append("<td>" + ip_result.postal + "</td>");
-                        });
+                        item.append("<td>" + result[i].org + "</td>");
+                        item.append("<td>" + result[i].country + "</td>");
+                        item.append("<td>" + result[i].region + "</td>");
+                        item.append("<td>" + result[i].city + "</td>");
+                        item.append("<td>" + result[i].isp + "</td>");
+                        item.append("<td>" + result[i].address + "</td>");
 
                         table_detail.append(item);
                       };
