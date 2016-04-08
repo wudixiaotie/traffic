@@ -25,6 +25,7 @@ class VisitorsController < ApplicationController
 
   def show
     result = []
+
     Visitor.where(date: params["id"]).each do |visitor|
       item = {}
       item["ip"] = visitor.ip
@@ -45,6 +46,7 @@ class VisitorsController < ApplicationController
 
       result.append(item)
     end
+
     render json: result
   end
 end
