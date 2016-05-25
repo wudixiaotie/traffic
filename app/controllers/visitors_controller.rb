@@ -25,6 +25,7 @@ class VisitorsController < ApplicationController
 
   def show
     result = []
+    timezone = params["timezone"]
 
     Visitor.where(date: params["id"]).each do |visitor|
       item = {}
@@ -32,8 +33,8 @@ class VisitorsController < ApplicationController
       item["times"] = visitor.times
       item["referer"] = visitor.referer
       item["date"] = visitor.date
-      item["created_at"] = visitor.created_at
-      item["updated_at"] = visitor.updated_at
+      item["created_at"] = visitor.created_at.in_time_zone(timezone)
+      item["updated_at"] = visitor.updated_at.in_time_zone(timezone)
 
       ip_json = JSON.parse(Curl.get("http://ip-api.com/json/" + visitor.ip).body)
 

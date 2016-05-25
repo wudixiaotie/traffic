@@ -19,6 +19,7 @@
   </tr>
 </table>
 
+<input id="input_timezone" type="hidden" disabled="disabled"></input>
 <script type="text/javascript">
   $(function () {
     $('#container').highcharts({
@@ -99,8 +100,10 @@
               click: function (e) {
                 var date = new Date(parseInt(e.point.x));
                 var date_string = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                var timezone = $("#input_timezone").val();
+                var url = "/visitors/" + date_string + "?timezone=" + timezone;
                 var table_detail = $("table.detail");
-                $.getJSON("/visitors/" + date_string, function (result) {
+                $.getJSON(url, function (result) {
                     $(".item").children().remove();
                     if(result == []) {
                       alert("fuck");
